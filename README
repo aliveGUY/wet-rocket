@@ -1,0 +1,128 @@
+# 🟧 WebAssembly OpenGL Triangle Demo
+
+This project compiles a simple C++ OpenGL ES 2.0 program (a single triangle) to **WebAssembly** using **Emscripten**, and runs it in the browser via a local development server.
+
+---
+
+### 📦 Prerequisites
+
+- Python 3.x
+- Git
+- **Emscripten SDK** (latest)
+
+---
+
+### 🚀 Setup Instructions (From Scratch)
+
+### ✅ Step 1: Install Emscripten
+
+#### 🔧 Linux / macOS
+
+```bash
+git clone https://github.com/emscripten-core/emsdk.git
+cd emsdk
+./emsdk install latest
+./emsdk activate latest
+source ./emsdk_env.sh
+````
+
+#### 🪟 Windows (PowerShell)
+
+```powershell
+git clone https://github.com/emscripten-core/emsdk.git
+cd emsdk
+.\emsdk install latest
+.\emsdk activate latest
+.\emsdk_env.ps1
+```
+
+> ✅ You must run `source ./emsdk_env.sh` or `.\emsdk_env.ps1` in **every new terminal session** to set up environment variables.
+
+---
+
+### ✅ Step 2: Clone the Project
+
+```bash
+git clone <your-project-repo>
+cd <your-project-folder>
+```
+
+---
+
+### ✅ Step 3: Build & Run
+
+Use the provided `build_and_run.py` script:
+
+```bash
+python build_and_run.py
+```
+
+This will:
+
+1. Compile `main.cpp` using `emcc`
+2. Output to the `build/` folder
+3. Start a local dev server at [http://localhost:8080](http://localhost:8080)
+
+---
+
+## 📁 Project Structure
+
+```
+project/
+├── build_and_run.py       # Python script to build and run
+├── main.cpp               # C++ code using OpenGL ES 2.0
+└── (build/)               # Auto-generated output: .html, .js, .wasm
+```
+
+---
+
+## 🌐 Output
+
+A triangle rendered in orange on a dark background using WebGL2 via WebAssembly.
+
+---
+
+## 📌 Notes
+
+* `requestFullscreen` is explicitly exported to support future fullscreen features.
+* The build system uses `emcc` flags:
+
+  ```bash
+  -s USE_WEBGL2=1 -s FULL_ES3=1 -s EXPORTED_RUNTIME_METHODS='["requestFullscreen"]'
+  ```
+
+---
+
+## 🛠 Troubleshooting
+
+### ⚠ "emcc not found"
+
+Make sure you've activated the Emscripten environment in your terminal:
+
+```bash
+source ./emsdk_env.sh        # Linux/macOS
+.\emsdk_env.ps1              # Windows PowerShell
+```
+
+### ⚠ "emrun not found"
+
+Make sure Emscripten's `tools/` are in your `PATH`, or run with Python's HTTP server:
+
+```bash
+python -m http.server 8080 --directory build
+```
+
+---
+
+## 💡 Optional Enhancements
+
+* Use `CMake` to manage larger builds
+* Add mouse-controlled camera
+* Load `.gltf` models using C++ loaders
+
+```
+
+---
+
+Let me know if you'd like me to generate the `build_and_run.py` file or a `CMakeLists.txt` as well.
+```
