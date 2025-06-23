@@ -38,9 +38,9 @@ void init() {
     glUseProgram(program);
 
     float triangle[] = {
-        0.0f,  0.5f,   // top
-       -0.5f, -0.5f,   // bottom left
-        0.5f, -0.5f    // bottom right
+        0.0f,  0.5f,
+       -0.5f, -0.5f,
+        0.5f, -0.5f
     };
 
     glGenBuffers(1, &vbo);
@@ -53,6 +53,12 @@ void init() {
 }
 
 void render() {
+    // Resize canvas to match window
+    double width, height;
+    emscripten_get_element_css_size("#canvas", &width, &height);
+    emscripten_set_canvas_element_size("#canvas", (int)width, (int)height);
+    glViewport(0, 0, (int)width, (int)height);
+
     glClearColor(0.2f, 0.2f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     glDrawArrays(GL_TRIANGLES, 0, 3);
@@ -61,7 +67,7 @@ void render() {
 int main() {
     EmscriptenWebGLContextAttributes attr;
     emscripten_webgl_init_context_attributes(&attr);
-    attr.majorVersion = 2; // WebGL2
+    attr.majorVersion = 2;
     attr.minorVersion = 0;
     attr.alpha = EM_TRUE;
     attr.depth = EM_FALSE;
