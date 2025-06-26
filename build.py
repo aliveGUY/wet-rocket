@@ -6,7 +6,6 @@ os.makedirs("build", exist_ok=True)
 # Build with emcc
 subprocess.run(
     'emcc main.cpp -s USE_WEBGL2=1 -s FULL_ES3=1 '
-    '-s EXPORTED_RUNTIME_METHODS=\'["requestFullscreen"]\' '
     '--shell-file shell.html -o build/index.html',
     shell=True,
     check=True

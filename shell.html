@@ -17,10 +17,58 @@
       width: 100vw;
       height: 100vh;
     }
+
+    #fullscreen-btn {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      padding: 10px 20px;
+      background: #404060;
+      color: white;
+      border: none;
+      cursor: pointer;
+      z-index: 100;
+      font-family: sans-serif;
+    }
   </style>
 </head>
 <body>
   <canvas id="canvas"></canvas>
+
+  <button id="fullscreen-btn">Fullscreen</button>
+
+  <script>
+    // Добавим кнопку полноэкранного режима
+    document.getElementById('fullscreen-btn').addEventListener('click', function () {
+      if (Module.requestFullscreen) {
+        Module.requestFullscreen();
+      } else {
+        const canvas = document.getElementById('canvas');
+        if (canvas.requestFullscreen) {
+          canvas.requestFullscreen();
+        }
+      }
+    });
+
+    // Убедимся, что Emscripten-объект поддерживает fullscreen
+    Module = {
+      onRuntimeInitialized: function () {
+        Module.requestFullscreen = function () {
+          const canvas = document.getElementById('canvas');
+          if (canvas.requestFullscreen) {
+            canvas.requestFullscreen();
+          } else if (canvas.webkitRequestFullscreen) {
+            canvas.webkitRequestFullscreen();
+          } else if (canvas.mozRequestFullScreen) {
+            canvas.mozRequestFullScreen();
+          } else if (canvas.msRequestFullscreen) {
+            canvas.msRequestFullscreen();
+          }
+        };
+      }
+    };
+  </script>
+
   {{{ SCRIPT }}}
 </body>
 </html>
